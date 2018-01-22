@@ -105,7 +105,7 @@ python ellipsabelle_animate.py [ellipse_dir] [gif_dir]
 
 This will try and post a GIF to Twitter.  It is extremely similar to Twitter's
 own
-["large video upload" demo script](https://github.com/twitterdev/large-video-upload-python)
+["large video upload" demo script.](https://github.com/twitterdev/large-video-upload-python)
 Invoke with:
 
 ```
