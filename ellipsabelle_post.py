@@ -157,10 +157,8 @@ class GifUploader(object):
 
     def tweet(self):
         request_data = {
-          #'status': '',
           'media_ids': self.media_id
         }
-
         req = requests.post(url=POST_TWEET_URL, data=request_data,
                             auth=self.oauth)
         print(req.json())

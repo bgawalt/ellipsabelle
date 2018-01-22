@@ -1,16 +1,18 @@
 import ellipsabelle
 import json
+import os
 import sys
 
 from PIL import Image
 
 
-# Follow up with:
-# convert iz1_ellipse.gif -layers OptimizePlus unposted/iz1.gif
+def GetFilenames(source_dir):
+    return [f for f in os.listdir(source_dir)
+            if f[0] != "." and f[-4:] == ".txt"]
 
-if __name__ == "__main__":
-    outfile_base = sys.argv[2]  # will have .gif appended
-    with open(sys.argv[1], "r") as infile:
+
+def SaveAnimation(ellipse_filename, gif_filename):
+    with open(ellipse_filename, "r") as infile:
         lines = infile.readlines()
     bg_stats = json.loads(lines[0])
     print bg_stats
@@ -21,7 +23,6 @@ if __name__ == "__main__":
     for hi in range(height):
         for wi in range(width):
             pix[hi, wi] = [bg_r, bg_g, bg_g]
-
 
     img_base = Image.new('RGB', (height, width), "black")
     img_pixels = img_base.load()
@@ -44,12 +45,29 @@ if __name__ == "__main__":
             except:
                 pass
         if num_ell == target:
-            print target
             img = Image.new('RGB', (height, width), "black")
             img_pixels = img.load()
             for r, c in pix:
                 img_pixels[r, c] = ellipsabelle.ClipColors(pix[r, c])
             im_seq.append(img)
             target += len(im_seq)
-    img_base.save(outfile_base+".gif", save_all=True, append_images=im_seq,
+    img = Image.new('RGB', (height, width), "black")
+    img_pixels = img.load()
+    for r, c in pix:
+        img_pixels[r, c] = ellipsabelle.ClipColors(pix[r, c])
+    im_seq.append(img)
+    target += len(im_seq)
+    img_base.save(gif_filename, save_all=True, append_images=im_seq,
                   optimize=True)
+
+# Follow up with:
+# convert iz1_ellipse.gif -layers OptimizePlus unposted/iz1.gif
+
+if __name__ == "__main__":
+    ellipse_dir = sys.argv[1]
+    gif_dir = sys.argv[2]
+
+    for f in GetFilenames(ellipse_dir):
+        print f
+        SaveAnimation(os.path.join(ellipse_dir, f),
+                      os.path.join(gif_dir, f)[:-4] + ".gif")
