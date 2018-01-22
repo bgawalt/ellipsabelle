@@ -18,6 +18,15 @@ requests-oauthlib==0.8.0
 Pillow==5.0.0
 ```
 
+I think you can get there with the commands:
+
+```
+pip install Pillow
+pip install requests
+pip install requests-oauthlib
+```
+
+
 ## Repo Contents
 
 ### `ellipsabelle.py`
@@ -94,7 +103,10 @@ python ellipsabelle_animate.py [ellipse_dir] [gif_dir]
 
 ### `ellipsabelle_post.py`
 
-This will try and post a GIF to Twitter.  Invoke with:
+This will try and post a GIF to Twitter.  It is extremely similar to Twitter's
+own
+["large video upload" demo script](https://github.com/twitterdev/large-video-upload-python)
+Invoke with:
 
 ```
 python ellipsabelle_post.py [config_file]
@@ -111,6 +123,10 @@ ACCESS_SECRET = [the Twitter account's access token secret]
 SRC_FOLDER = [directory of GIFs to post]
 DST_FOLDER = [directory in which to house GIFs after posting]
 ```
+
+It picks a GIF to upload by scanning for one in `SRC_FOLDER`.
+After it's finished uploading, it will move the GIF file from `SRC_FOLDER`
+to `DST_FOLDER`.
 
 You'll probably want to run the resulting GIFs through a pass of ImageMagick's
 [GIF optimizer](http://www.imagemagick.org/Usage/anim_opt/) before trying to
